@@ -3,6 +3,7 @@ import json
 from time import time
 
 
+# courtesy of https://hackernoon.com/learn-blockchains-by-building-one-117428612f46
 class Blockchain(object):
     def __init__(self):
         self.chain = []
@@ -93,6 +94,15 @@ class Blockchain(object):
 
 
 if __name__ == '__main__':
+    import time
+
+    length = 1
     blockchain = Blockchain()
-    solution = blockchain.proof_of_work(5)
-    print(f'The solution is y = {solution}')
+
+    results = [0.0] * length
+    for i in range(length):
+        start_time = time.time()
+        blockchain.proof_of_work(10)
+        results[i] = time.time() - start_time
+
+    print(f"(10, length 5): {(sum(results) / float(len(results)))} seconds")
