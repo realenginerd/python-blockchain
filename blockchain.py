@@ -106,27 +106,25 @@ class Blockchain(object):
         :param address: <str> Address of node. Eg. 'http://192.168.0.5:5000'
         :return: None
         """
-
         parsed_url = urlparse(address)
         self.nodes.add(parsed_url.netloc)
 
     def valid_chain(self, chain):
         """
         Determine if a given blockchain is valid
-        :param chain: <list> A Blockchain
+        :param chain: <list> A Blockchain object's actual list
         :return: <bool> True if valid, False if not
         """
-        # traverse the list backward to front
         for current_index in range(1, len(chain)):
-            last_block = chain[current_index - 1]
+            previous_block = chain[current_index - 1]
             block = chain[current_index]
 
             # validate hashes
-            if block['previous_hash'] != self.hash(last_block):
+            if block['previous_hash'] != self.hash(previous_block):
                 return False
 
             # validate proofs
-            if not self.valid_proof(last_block['proof'], block['proof']):
+            if not self.valid_proof(previous_block['proof'], block['proof']):
                 return False
 
         return True
